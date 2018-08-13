@@ -40,13 +40,11 @@ public class MessageServiceImpl implements MessageService {
      */
     public List<List<MessageItem>> selectAllByUser(Integer userId) {
 
-        // 系统消息
-        List<MessageItem> sysMsgList = mapper.selectSysMsgByUser(userId);
 
         // 用户最新消息
-        List<MessageItem> userMsgList = mapper.selectLatestMsgByUser(userId);
+        List<MessageItem> userMsgList = mapper.findByUser2OrderBySendTime(userId);
         // 用户未读消息数
-        List<MessageItem> unopenCntList = mapper.selectUnopenCntByUser(userId);
+        List<MessageItem> unopenCntList = mapper.findByUser2AndStatusOrderBySendTime(userId, "1");
         for (int i=0; i < unopenCntList.size(); i++) {
             for (int j=0; j < userMsgList.size(); j++) {
                 if (unopenCntList.get(i).getUser1() == userMsgList.get(j).getUser1()
@@ -58,7 +56,6 @@ public class MessageServiceImpl implements MessageService {
         }
 
         List<List<MessageItem>> all = new ArrayList<List<MessageItem>>();
-        all.add(sysMsgList);
         all.add(userMsgList);
 
         return all;
@@ -68,10 +65,9 @@ public class MessageServiceImpl implements MessageService {
      * 根据两个用户ID检索他们之间的聊天消息
      */
     public List<MessageItem> selectMsgByUsers(Integer userId1, Integer userId2) {
-
         // 更新成已读状态
         mapper.updateStatusByUsers(userId1, userId2);
-        return mapper.selectMsgByUsers(userId1, userId2);
+        return mapper.findByUser1AndUser2OrderBySendTime(userId1, userId2);
 
     }
 
