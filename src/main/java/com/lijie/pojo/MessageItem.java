@@ -1,8 +1,13 @@
 package com.lijie.pojo;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Table(name="messageItem")
+@Entity
 public class MessageItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer messageId;
 
     private String msgType;

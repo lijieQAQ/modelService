@@ -1,7 +1,11 @@
 package com.lijie.pojo;
 
-public class MessageInfo {
+import javax.persistence.*;
 
+@Table(name="messageInfo")
+@Entity
+public class MessageInfo {
+	@Id
     private String code;
 
     private String message;

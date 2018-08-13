@@ -2,6 +2,7 @@ package com.lijie.controller;
 
 import com.lijie.pojo.Message;
 import com.lijie.pojo.MessageItem;
+import com.lijie.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,14 @@ public class MessageController {
 	
 
 	@Autowired
-	private MessageLogic logic;
+	private MessageService messageService;
 
 	/* 
 	 * 用户发消息
 	 */
 	@RequestMapping("/send")
 	public int send(@RequestBody Message msg) {
-		return logic.send(msg);
+		return messageService.send(msg);
 	}
 	
 	/* 
@@ -33,7 +34,7 @@ public class MessageController {
 	 */
 	@RequestMapping("/getMsgList")
 	public List<List<MessageItem>> getMsgList(@RequestParam("userId") Integer userId) {
-		return logic.selectAllByUser(userId);
+		return messageService.selectAllByUser(userId);
 	}
 	
 	/* 
@@ -41,7 +42,7 @@ public class MessageController {
 	 */
 	@RequestMapping("/getMsg")
 	public List<MessageItem> getMsgInUsers(@RequestParam("userId1") Integer userId1, @RequestParam("userId2") Integer userId2) {
-		return logic.selectMsgByUsers(userId1, userId2);
+		return messageService.selectMsgByUsers(userId1, userId2);
 	}
 
 }
