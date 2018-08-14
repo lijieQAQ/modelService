@@ -31,20 +31,24 @@ public class MessageServiceImpl implements MessageService {
         // 创建信息
         msg.setCreateId(msg.getSpeaker());
         msg.setCreateDate(new Date());
-
-        return mapper.insertSelective(msg);
+        Message message = mapper.saveAndFlush(msg);
+        if(message != null) {
+            return 1;
+        }else {
+            return 0;
+        }
     }
 
     /**
      * 根据用户ID检索消息
      */
-    public List<List<MessageItem>> selectAllByUser(Integer userId) {
+    public List<List<Message>> selectAllByUser(Integer userId) {
 
 
         // 用户最新消息
-        List<MessageItem> userMsgList = mapper.findByUser2OrderBySendTime(userId);
+        List<Message> userMsgList = mapper.findByUser2OrderBySendTime(userId);
         // 用户未读消息数
-        List<MessageItem> unopenCntList = mapper.findByUser2AndStatusOrderBySendTime(userId, "1");
+        List<Message> unopenCntList = mapper.findByUser2AndStatusOrderBySendTime(userId, "1");
         for (int i=0; i < unopenCntList.size(); i++) {
             for (int j=0; j < userMsgList.size(); j++) {
                 if (unopenCntList.get(i).getUser1() == userMsgList.get(j).getUser1()
@@ -55,7 +59,7 @@ public class MessageServiceImpl implements MessageService {
             }
         }
 
-        List<List<MessageItem>> all = new ArrayList<List<MessageItem>>();
+        List<List<Message>> all = new ArrayList<List<Message>>();
         all.add(userMsgList);
 
         return all;
@@ -64,9 +68,13 @@ public class MessageServiceImpl implements MessageService {
     /**
      * 根据两个用户ID检索他们之间的聊天消息
      */
-    public List<MessageItem> selectMsgByUsers(Integer userId1, Integer userId2) {
+    public List<Message> selectMsgByUsers(Integer userId1, Integer userId2) {
         // 更新成已读状态
-        mapper.updateStatusByUsers(userId1, userId2);
+        Message message = new Message();
+        message.setUser1(userId1);
+        message.setUser2(userId2);
+        message.setStatus("2");
+        mapper.saveAndFlush(message);
         return mapper.findByUser1AndUser2OrderBySendTime(userId1, userId2);
 
     }

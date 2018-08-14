@@ -28,6 +28,10 @@ public class Message {
 
     private String delFlg;
 
+    private String userName1;
+
+    private String userName2;
+
     private Integer createId;
 
     private Date createDate;
@@ -35,6 +39,8 @@ public class Message {
     private Integer updateId;
 
     private Date updateDate;
+
+    private Integer unopenCnt;
 
     public Integer getMessageId() {
         return messageId;
@@ -146,5 +152,29 @@ public class Message {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getUserName1() {
+        return userName1;
+    }
+
+    public void setUserName1(String userName1) {
+        this.userName1 = userName1;
+    }
+
+    public String getUserName2() {
+        return userName2;
+    }
+
+    public void setUserName2(String userName2) {
+        this.userName2 = userName2;
+    }
+
+    public Integer getUnopenCnt() {
+        return unopenCnt;
+    }
+
+    public void setUnopenCnt(Integer unopenCnt) {
+        this.unopenCnt = unopenCnt;
     }
 }

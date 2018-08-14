@@ -33,7 +33,7 @@ public class MessageController {
 	 * 取得系统消息/用户消息一览
 	 */
 	@RequestMapping("/getMsgList")
-	public List<List<MessageItem>> getMsgList(@RequestParam("userId") Integer userId) {
+	public List<List<Message>> getMsgList(@RequestParam("userId") Integer userId) {
 		return messageService.selectAllByUser(userId);
 	}
 	
@@ -41,7 +41,7 @@ public class MessageController {
 	 * 取得两个用户间的消息一览
 	 */
 	@RequestMapping("/getMsg")
-	public List<MessageItem> getMsgInUsers(@RequestParam("userId1") Integer userId1, @RequestParam("userId2") Integer userId2) {
+	public List<Message> getMsgInUsers(@RequestParam("userId1") Integer userId1, @RequestParam("userId2") Integer userId2) {
 		return messageService.selectMsgByUsers(userId1, userId2);
 	}
 
