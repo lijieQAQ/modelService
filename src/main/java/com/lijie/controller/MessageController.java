@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class MessageController {
 	 * 用户发消息
 	 */
 	@RequestMapping("/send")
-	public int send(@RequestBody Message msg) {
+	public int send(Message msg) {
 		return messageService.send(msg);
 	}
 	
@@ -33,7 +34,7 @@ public class MessageController {
 	 * 取得系统消息/用户消息一览
 	 */
 	@RequestMapping("/getMsgList")
-	public List<List<Message>> getMsgList(@RequestParam("userId") Integer userId) {
+	public List<List<HashMap>> getMsgList(Integer userId) {
 		return messageService.selectAllByUser(userId);
 	}
 	
@@ -41,7 +42,7 @@ public class MessageController {
 	 * 取得两个用户间的消息一览
 	 */
 	@RequestMapping("/getMsg")
-	public List<Message> getMsgInUsers(@RequestParam("userId1") Integer userId1, @RequestParam("userId2") Integer userId2) {
+	public List<Message> getMsgInUsers(Integer userId1, Integer userId2) {
 		return messageService.selectMsgByUsers(userId1, userId2);
 	}
 

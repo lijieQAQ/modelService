@@ -32,6 +32,10 @@ public class Message {
 
     private String userName2;
 
+    private String portrait1;
+
+    private String portrait2;
+
     private Integer createId;
 
     private Date createDate;
@@ -176,5 +180,21 @@ public class Message {
 
     public void setUnopenCnt(Integer unopenCnt) {
         this.unopenCnt = unopenCnt;
+    }
+
+    public String getPortrait1() {
+        return portrait1;
+    }
+
+    public void setPortrait1(String portrait1) {
+        this.portrait1 = portrait1;
+    }
+
+    public String getPortrait2() {
+        return portrait2;
+    }
+
+    public void setPortrait2(String portrait2) {
+        this.portrait2 = portrait2;
     }
 }
