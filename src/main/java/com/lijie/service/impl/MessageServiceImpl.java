@@ -39,9 +39,9 @@ public class MessageServiceImpl implements MessageService {
         msg.setCreateId(msg.getSpeaker());
         msg.setCreateDate(new Date());
         Message message = mapper.saveAndFlush(msg);
-        if(message != null) {
+        if (message != null) {
             return 1;
-        }else {
+        } else {
             return 0;
         }
     }
@@ -58,33 +58,37 @@ public class MessageServiceImpl implements MessageService {
                 "    from MESSAGE MSG, staff USR1, staff USR2, " +
                 "    ( select USER1,  USER2, MAX(SEND_TIME) AS SEND_TIME " +
                 "      from MESSAGE  " +
-                "      where ( USER1 = '02' or USER2 = '2' ) " +
+                "      where ( USER1 = ? or USER2 = ? ) " +
                 "      group by USER1 asc, USER2 asc ) AS A " +
-                "    where MSG.USER1 = A.USER1 and MSG.USER2 = A.USER2 and MSG.SEND_TIME = A.SEND_TIME " +
+                "    where MSG.USER1 = A.USER1 and MSG.USER2 = A.USER2 and MSG.SEND_TIME = A.SEND_TIME AND MSG.USER1 = USR1.id" +
+                "  AND MSG.USER2 = USR2.id" +
                 "    order by MSG.USER1, MSG.USER2");
+        query.setParameter(1, userId);
+        query.setParameter(2, userId);
         query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-        List<HashMap> userMsgList= query.getResultList();
+        List<HashMap> userMsgList = query.getResultList();
         Query query1 = em.createNativeQuery("  select " +
                 "    MSG.USER1 user1, MSG.USER2 user2, count(MSG.MESSAGE_ID) as unopenCnt " +
                 "    from MESSAGE MSG, STAFF USR1, STAFF USR2 " +
                 "    where " +
-                "    ( MSG.USER1 = '2' or MSG.USER2 = '2' ) " +
+                "    ( MSG.USER1 = ? or MSG.USER2 = ? ) " +
                 "    and MSG.STATUS = '0' " +
                 "    group by MSG.USER1, MSG.USER2" +
                 "    order by MSG.USER1, MSG.USER2");
+        query1.setParameter(1, userId);
+        query1.setParameter(2, userId);
         query1.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-        List<HashMap> unopenCntList= query1.getResultList();
+        List<HashMap> unopenCntList = query1.getResultList();
         em.close();
-        for (int i=0; i < unopenCntList.size(); i++) {
-            for (int j=0; j < userMsgList.size(); j++) {
+        for (int i = 0; i < unopenCntList.size(); i++) {
+            for (int j = 0; j < userMsgList.size(); j++) {
                 if (unopenCntList.get(i).get("user1") == userMsgList.get(j).get("user1")
-                        && unopenCntList.get(i).get("user2") == userMsgList.get(j).get("user2") ) {
+                        && unopenCntList.get(i).get("user2") == userMsgList.get(j).get("user2")) {
                     userMsgList.get(j).put("unopenCnt", unopenCntList.get(i).get("unopenCnt"));
                     break;
                 }
             }
         }
-        System.out.println(unopenCntList.get(0).toString());
         List<List<HashMap>> all = new ArrayList<List<HashMap>>();
         all.add(userMsgList);
         return all;
@@ -95,12 +99,12 @@ public class MessageServiceImpl implements MessageService {
      */
     public List<Message> selectMsgByUsers(Integer userId1, Integer userId2) {
         // 更新成已读状态
-        Message message = new Message();
-        message.setUser1(userId1);
-        message.setUser2(userId2);
-        message.setStatus("2");
-        mapper.saveAndFlush(message);
-        return mapper.findByUser1AndUser2OrderBySendTime(userId1, userId2);
+//        Message message = new Message();
+//        message.setUser1(userId1);
+//        message.setUser2(userId2);
+//        message.setStatus("2");
+//        mapper.saveAndFlush(message);
+        return mapper.findByUser1AndUser2(userId1, userId2);
 
     }
 

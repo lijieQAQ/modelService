@@ -32,4 +32,6 @@ public interface MessageDao extends JpaRepository<Message, Integer> {
             "    group by msg.user1, msg.user2 " +
             "    order by msg.user1, msg.user2")
     List<Message> selectUnopenCntByUser(Integer userId);
+
+    List<Message> findByUser1AndUser2(Integer userId1, Integer userId2);
 }

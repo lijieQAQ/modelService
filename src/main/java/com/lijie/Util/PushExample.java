@@ -93,11 +93,11 @@ public class PushExample {
         extras.put("test", "https://community.jiguang.cn/push");
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
-                .setAudience(Audience.all())
+                .setAudience(Audience.alias("alias1", "alias2"))
                 .setNotification(Notification.newBuilder()
                 		.setAlert("alert content")
                 		.addPlatformNotification(AndroidNotification.newBuilder()
-                				.setTitle("Android Title")
+                				.setTitle("模特活动")
                                 .addExtras(extras).build())
                 		.addPlatformNotification(IosNotification.newBuilder()
                 				.incrBadge(1)

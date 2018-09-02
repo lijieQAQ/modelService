@@ -27,6 +27,7 @@ public class MessageController {
 	 */
 	@RequestMapping("/send")
 	public int send(Message msg) {
+
 		return messageService.send(msg);
 	}
 	
