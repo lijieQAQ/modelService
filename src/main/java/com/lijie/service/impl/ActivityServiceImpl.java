@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /**
  * Created by lijie on 2018/5/28.
@@ -37,5 +39,9 @@ public class ActivityServiceImpl implements ActivityService {
         Sort sort = new Sort(Sort.Direction.DESC,"id");
         Pageable page = new PageRequest(pageNumber,pageSize,sort);
         return activityDao.findAll(page);
+    }
+    @Override
+    public List<Activity> findActivitiesByType(int staffId, String activitytype) {
+        return activityDao.findActivitiesByType(staffId,activitytype);
     }
 }

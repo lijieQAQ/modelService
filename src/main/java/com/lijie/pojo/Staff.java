@@ -28,6 +28,10 @@ public class Staff {
     private String hobbies; //爱好
     private String introductionPhoto; //个人简介图片
     private String graduatedSchool; //毕业院校
+    private String national;//民族
+    private String bust; //胸围
+    private String waist;//腰围
+    private String hips;//臀围
 
     public Integer getId() {
         return id;
@@ -155,5 +159,28 @@ public class Staff {
 
     public void setGraduatedSchool(String graduatedSchool) {
         this.graduatedSchool = graduatedSchool;
+    }
+    public String getBust() {
+        return bust;
+    }
+
+    public void setBust(String bust) {
+        this.bust = bust;
+    }
+
+    public String getWaist() {
+        return waist;
+    }
+
+    public void setWaist(String waist) {
+        this.waist = waist;
+    }
+
+    public String getHips() {
+        return hips;
+    }
+
+    public void setHips(String hips) {
+        this.hips = hips;
     }
 }

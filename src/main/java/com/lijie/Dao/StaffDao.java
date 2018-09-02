@@ -13,4 +13,7 @@ import java.util.List;
 @Repository
 public interface StaffDao extends JpaRepository<Staff,Integer> {
     List<Staff> findByname(String name);
+    Staff findById(String id);
+    Staff findByMobileAndPassword(String mobile, String password);
+    Staff findByMobile(String mobile);
 }

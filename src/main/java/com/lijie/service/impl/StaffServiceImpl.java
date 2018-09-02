@@ -37,4 +37,33 @@ public class StaffServiceImpl implements StaffService {
         Pageable page = new PageRequest(pageNumber,pageSize,sort);
         return StaffDao.findAll(page);
     }
+    @Override
+    public Staff findById(int id) {
+        return StaffDao.findById(id).get();
+    }
+
+    @Override
+    public int saveOrUpdate(Staff staff) {
+        Staff sf = StaffDao.saveAndFlush(staff);
+        if (sf == null) {
+            return  0;
+        }else {
+            return  1;
+        }
+    }
+
+    @Override
+    public Staff findByMobileAndPassword(String mobile, String password) {
+        return StaffDao.findByMobileAndPassword(mobile,password);
+    }
+
+    @Override
+    public int findByMobile(String mobile) {
+        Staff sf = StaffDao.findByMobile(mobile);
+        if (sf == null) {
+            return  0;
+        }else {
+            return  1;
+        }
+    }
 }
