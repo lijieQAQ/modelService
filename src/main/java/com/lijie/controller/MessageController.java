@@ -1,5 +1,6 @@
 package com.lijie.controller;
 
+import com.lijie.Util.PushExample;
 import com.lijie.pojo.Message;
 import com.lijie.pojo.MessageItem;
 import com.lijie.service.MessageService;
@@ -27,7 +28,11 @@ public class MessageController {
 	 */
 	@RequestMapping("/send")
 	public int send(Message msg) {
-
+		if(msg.getSpeaker() == msg.getUser1()) {
+			PushExample.testSendPush(new String().valueOf(msg.getUser2()));
+		} else {
+			PushExample.testSendPush(new String().valueOf(msg.getUser1()));
+		}
 		return messageService.send(msg);
 	}
 	

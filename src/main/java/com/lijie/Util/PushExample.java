@@ -41,15 +41,12 @@ public class PushExample {
     public static final String ALERT = "Test from API Example - alert";
     public static final String MSG_CONTENT = "Test from API Example - msgContent";
 
-	public static void main(String[] args) {
-		testSendPush();
-	}
 
 
-	public static void testSendPush() {
+	public static void testSendPush(String alias) {
 		ClientConfig clientConfig = ClientConfig.getInstance();
         final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
-        final PushPayload payload = buildPushObject_android_and_ios();
+        final PushPayload payload = buildPushObject_android_and_ios(alias);
         try {
             PushResult result = jpushClient.sendPush(payload);
             LOG.info("Got result - " + result);
@@ -88,12 +85,12 @@ public class PushExample {
                 .build();
     }
     
-    public static PushPayload buildPushObject_android_and_ios() {
+    public static PushPayload buildPushObject_android_and_ios(String alias) {
         Map<String, String> extras = new HashMap<String, String>();
         extras.put("test", "https://community.jiguang.cn/push");
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
-                .setAudience(Audience.alias("alias1", "alias2"))
+                .setAudience(Audience.alias(alias))
                 .setNotification(Notification.newBuilder()
                 		.setAlert("alert content")
                 		.addPlatformNotification(AndroidNotification.newBuilder()
