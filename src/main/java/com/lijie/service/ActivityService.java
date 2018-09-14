@@ -16,4 +16,6 @@ public interface ActivityService {
 
     Page<Activity> findAllActivityByPage(int pageSize, int pageNumber);
     List<Activity> findActivitiesByType (int staffId, String activitytype);
+
+    Activity findActivitiesById(Integer id);
 }

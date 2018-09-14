@@ -16,6 +16,7 @@ import java.util.List;
 @Repository
 public interface ActivityDao extends JpaRepository<Activity,Integer> {
     Page<Activity> findAllByisCarousel(char c, Pageable page);
-    @Query(value = "select * from activity  where id in ( select r.activityId from record r where r.staffId = ?1 and r.activitytype = ?2)",nativeQuery = true)
+    @Query(value = "select * from activity  where id in ( select r.activity_id from record r where r.staff_id = ?1 and r.activitytype = ?2)",nativeQuery = true)
     List<Activity> findActivitiesByType( int staffId, String activitytype);
+
 }

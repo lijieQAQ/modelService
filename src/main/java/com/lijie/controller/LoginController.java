@@ -1,5 +1,6 @@
 package com.lijie.controller;
 
+import com.lijie.Util.MD5Util;
 import com.lijie.pojo.Staff;
 import com.lijie.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class LoginController {
     public Staff userLogin(Staff staff){
         String mobile = staff.getMobile();
         String password = staff.getPassword();
+        password = MD5Util.MD5(password);
         Staff user = staffService.findByMobileAndPassword(mobile,password );
         return user;
     }

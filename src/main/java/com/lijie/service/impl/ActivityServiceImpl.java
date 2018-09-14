@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -43,5 +44,10 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<Activity> findActivitiesByType(int staffId, String activitytype) {
         return activityDao.findActivitiesByType(staffId,activitytype);
+    }
+
+    @Override
+    public Activity findActivitiesById(@RequestBody Integer id) {
+        return  activityDao.getOne(id);
     }
 }

@@ -3,6 +3,7 @@ package com.lijie.pojo;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Date;
  */
 @Table(name="activity")
 @Entity
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -166,20 +168,20 @@ public class Activity {
 
     @Override
     public String toString() {
-        return "Activity{" +
-                "id=" + id +
-                ", type=" + type +
-                ", name='" + name + '\'' +
-                ", title='" + title + '\'' +
-                ", introduction='" + introduction + '\'' +
-                ", content='" + content + '\'' +
-                ", minPricePoint=" + minPricePoint +
-                ", maxPricePoint=" + maxPricePoint +
-                ", isCarousel=" + isCarousel +
-                ", coverPhoto='" + coverPhoto + '\'' +
-                ", beginDate=" + beginDate +
-                ", endDate=" + endDate +
-                ", createDate=" + createDate +
+        return "{" +
+                "id:" + id +
+                ", type:" + type +
+                ", name:'" + name + '\'' +
+                ", title:'" + title + '\'' +
+                ", introduction:'" + introduction + '\'' +
+                ", content:'" + content + '\'' +
+                ", minPricePoint:" + minPricePoint +
+                ", maxPricePoint:" + maxPricePoint +
+                ", isCarousel:" + isCarousel +
+                ", coverPhoto:'" + coverPhoto + '\'' +
+                ", beginDate:" + beginDate +
+                ", endDate:" + endDate +
+                ", createDate:" + createDate +
                 '}';
     }
 }
