@@ -33,5 +33,7 @@ public interface MessageDao extends JpaRepository<Message, Integer> {
             "    order by msg.user1, msg.user2")
     List<Message> selectUnopenCntByUser(Integer userId);
 
+
+    @Query(value = "select * from message WHERE (user1 = ?1 and user2 = ?2) or (user1 = ?2 and user2 = ?1) order by send_time", nativeQuery = true)
     List<Message> findByUser1AndUser2(Integer userId1, Integer userId2);
 }

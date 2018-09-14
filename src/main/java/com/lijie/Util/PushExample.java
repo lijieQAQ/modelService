@@ -41,9 +41,10 @@ public class PushExample {
     public static final String ALERT = "Test from API Example - alert";
     public static final String MSG_CONTENT = "Test from API Example - msgContent";
 
-
-
-	public static void testSendPush(String alias) {
+    public static void main(String[] args) {
+        testSendPush("1");
+    }
+    public static void testSendPush(String alias) {
 		ClientConfig clientConfig = ClientConfig.getInstance();
         final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
         final PushPayload payload = buildPushObject_android_and_ios(alias);
