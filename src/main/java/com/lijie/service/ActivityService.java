@@ -15,7 +15,8 @@ public interface ActivityService {
     int saveOrUpdate(Activity activity);
 
     Page<Activity> findAllActivityByPage(int pageSize, int pageNumber);
-    List<Activity> findActivitiesByType (int staffId, String activitytype);
+    Page<Activity> findActivitiesByType (int staffId, String activitytype, int pageSize, int pageNumber);
 
     Activity findActivitiesById(Integer id);
+
 }

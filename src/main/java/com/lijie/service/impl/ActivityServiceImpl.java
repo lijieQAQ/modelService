@@ -41,13 +41,21 @@ public class ActivityServiceImpl implements ActivityService {
         Pageable page = new PageRequest(pageNumber,pageSize,sort);
         return activityDao.findAll(page);
     }
+
     @Override
-    public List<Activity> findActivitiesByType(int staffId, String activitytype) {
-        return activityDao.findActivitiesByType(staffId,activitytype);
+    public Page<Activity> findActivitiesByType(int staffId, String activitytype, int pageSize, int pageNumber) {
+        Pageable page = new PageRequest(pageNumber,pageSize);
+        return activityDao.findActivitiesByType(staffId,activitytype,page);
     }
+
+//    @Override
+//    public List<Activity> findActivitiesByType(int staffId, String activitytype) {
+//        return activityDao.findActivitiesByType(staffId,activitytype);
+//    }
 
     @Override
     public Activity findActivitiesById(@RequestBody Integer id) {
         return  activityDao.getOne(id);
     }
+
 }

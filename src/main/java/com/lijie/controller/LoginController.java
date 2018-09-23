@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/login")
 public class LoginController {
@@ -23,6 +25,8 @@ public class LoginController {
     }
     @PostMapping("/register")
     public int register(Staff staff){
+        staff.setCreatdate(new Date());
+        staff.setPassword(MD5Util.MD5(staff.getPassword()));
         int num= staffService.saveOrUpdate(staff);
         return num;
     }
