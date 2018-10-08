@@ -22,4 +22,6 @@ public interface StaffDao extends JpaRepository<Staff,Integer> {
 
     @Query(value = "select * from staff where id in (select staff_id from record where activitytype=?3 and activity_id = ?1 and status = ?2  order by createdate) ",countQuery ="select count(*) from staff where id in (select staff_id from record where activitytype=?3 and activity_id = ?1 and status = ?2 order by createdate) ", nativeQuery = true)
     Page<Staff> findStaffByIdAndActivitytype(Integer id,Pageable page,String status,String activitytype);
+
+    List<Staff> findByRole(char role);
 }

@@ -5,6 +5,7 @@ import com.lijie.pojo.Activity;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -19,4 +20,9 @@ public interface ActivityService {
 
     Activity findActivitiesById(Integer id);
 
+    Map getEvaActivityById(Integer id);
+
+    void deleteActivity(Activity activity);
+
+    int updateActLook(Integer activityId);
 }

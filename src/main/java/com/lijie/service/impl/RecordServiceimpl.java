@@ -6,6 +6,7 @@ import com.lijie.pojo.Record;
 import com.lijie.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RecordServiceimpl implements RecordService {
@@ -46,5 +47,15 @@ public class RecordServiceimpl implements RecordService {
     @Override
     public void clear() {
 
+    }
+
+    @Override
+    public int deleteRecorgByAct(Integer activityId) {
+      return  recordDao.updateRecorgByAct(activityId);
+    }
+
+    @Override
+    public int findApplyNum(Integer activityId) {
+        return recordDao.findApplyNum(activityId);
     }
 }

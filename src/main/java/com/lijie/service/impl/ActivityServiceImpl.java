@@ -9,9 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -56,6 +58,22 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public Activity findActivitiesById(@RequestBody Integer id) {
         return  activityDao.getOne(id);
+    }
+
+    @Override
+    public Map getEvaActivityById(Integer id) {
+        return activityDao.getEvaActivityById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteActivity(Activity activity) {
+        activityDao.deleteById(activity.getId());
+    }
+
+    @Override
+    public int updateActLook(Integer activityId) {
+        return activityDao.updateActLook(activityId);
     }
 
 }

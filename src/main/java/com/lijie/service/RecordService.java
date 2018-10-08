@@ -16,4 +16,8 @@ public interface RecordService {
     void deleteActivityDCJ(Integer activityId, Integer staffId, String activitytype, String status);
 
     void clear();
+
+    int  deleteRecorgByAct(Integer activityId);
+
+    int findApplyNum(Integer activityId);
 }

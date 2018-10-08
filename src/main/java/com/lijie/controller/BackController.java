@@ -28,6 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -201,19 +202,35 @@ public class BackController {
     public void addRecordComplete(HttpServletResponse response, Record record){
         ResultPojo result = new ResultPojo();
         recordService.saveOrUpdate(record);
-//        Record record1 = new Record();
-//        record1.setActivitytype("dp");
-//        record1.setStaffId(record.getStaffId());
-//        record1.setStatus("1");
-//        record1.setActivityId(record.getActivityId());
-//        recordService.saveOrUpdate(record1);
-        recordService.clear();
-        record.setId(null);
-        recordService.saveOrUpdate(record);
-        recordService.updateApplyActivity(record.getActivityId(),record.getStaffId(),"a","0");
+        Record record1 = new Record();
+        record1.setActivitytype("dp");
+        record1.setStaffId(record.getStaffId());
+        record1.setStatus("1");
+        record1.setActivityId(record.getActivityId());
+        recordService.saveOrUpdate(record1);
+//        recordService.clear();
+//        record.setId(null);
+//        recordService.saveOrUpdate(record);
+        recordService.updateApplyActivity(record.getActivityId(),record.getStaffId(),"a","4");
         recordService.deleteActivityDCJ(record.getActivityId(),record.getStaffId(),"dc","0");
         result.setStatus("success");
         ResUtil.ResString(response, result);
     }
 
+    @PostMapping("/getLeader")
+    public void getLeader(HttpServletResponse response){
+        ResultPojo result = new ResultPojo();
+        List<Staff> list =  staffService.getLeader();
+        result.setData(list);
+        result.setStatus("success");
+        ResUtil.ResString(response, result);
+    }
+    @PostMapping("/deleteActivity")
+    public void deleteActivity (HttpServletResponse response, Activity activity){
+        ResultPojo result = new ResultPojo();
+        activityService.deleteActivity(activity);
+        recordService.deleteRecorgByAct(activity.getId());
+        result.setStatus("success");
+        ResUtil.ResString(response, result);
+    }
 }

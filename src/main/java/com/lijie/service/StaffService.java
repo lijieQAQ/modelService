@@ -19,4 +19,6 @@ public interface StaffService {
     int  findByMobile(String mobile);
 
     Page<Staff> findStaffByIdAndActivitytype(Integer id,int pageSize, int pageNumber,String status,String activitytype);
+
+    List<Staff> getLeader();
 }
