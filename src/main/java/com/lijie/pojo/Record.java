@@ -13,8 +13,25 @@ public class Record {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer activityId;
-    private String staffId;
+    private Integer staffId;
     private String activitytype;
+    private String status;
+
+    public Integer getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(Integer staffId) {
+        this.staffId = staffId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;
@@ -32,13 +49,6 @@ public class Record {
         this.activityId = activityId;
     }
 
-    public String getStaffId() {
-        return staffId;
-    }
-
-    public void setStaffId(String staffId) {
-        this.staffId = staffId;
-    }
 
     public String getActivitytype() {
         return activitytype;

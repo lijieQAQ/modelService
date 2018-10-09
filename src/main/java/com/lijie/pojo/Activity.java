@@ -31,6 +31,16 @@ public class Activity {
     private String address; //活动地点
     private String userNum; //活动要求人数
     private int lookNum; //活动查看数量
+    private int leaderId;
+
+    public int getLeaderId() {
+        return leaderId;
+    }
+
+    public void setLeaderId(int leaderId) {
+        this.leaderId = leaderId;
+    }
+
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date beginDate; //活动开始时间
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")

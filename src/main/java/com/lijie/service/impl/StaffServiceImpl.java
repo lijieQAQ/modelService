@@ -66,4 +66,16 @@ public class StaffServiceImpl implements StaffService {
             return  1;
         }
     }
+
+    @Override
+    public Page<Staff> findStaffByIdAndActivitytype(Integer id,int pageSize, int pageNumber,String status ,String activitytype) {
+        Pageable page = new PageRequest(pageNumber,pageSize);
+        return StaffDao.findStaffByIdAndActivitytype(id,page,status,activitytype);
+    }
+
+    @Override
+    public List<Staff> getLeader() {
+        char role = 'l';
+        return StaffDao.findByRole(role);
+    }
 }

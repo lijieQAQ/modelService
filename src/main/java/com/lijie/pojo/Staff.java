@@ -3,6 +3,7 @@ package com.lijie.pojo;
 
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by lijie on 2018/5/28.
@@ -32,6 +33,16 @@ public class Staff {
     private String bust; //胸围
     private String waist;//腰围
     private String hips;//臀围
+
+    public Date getCreatdate() {
+        return creatdate;
+    }
+
+    public void setCreatdate(Date creatdate) {
+        this.creatdate = creatdate;
+    }
+
+    private Date creatdate;
 
     public Integer getId() {
         return id;

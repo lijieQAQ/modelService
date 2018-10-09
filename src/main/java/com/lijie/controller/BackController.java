@@ -3,15 +3,20 @@ package com.lijie.controller;
 import com.lijie.Util.MD5Util;
 import com.lijie.Util.ResUtil;
 import com.lijie.pojo.Activity;
+import com.lijie.pojo.Record;
 import com.lijie.pojo.ResultPojo;
 import com.lijie.pojo.Staff;
+import com.lijie.pojo.StaffPic;
 import com.lijie.service.ActivityService;
+import com.lijie.service.RecordService;
+import com.lijie.service.StaffPicService;
 import com.lijie.service.StaffService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -33,6 +39,10 @@ public class BackController {
     private StaffService staffService;
     @Autowired
     private ActivityService activityService;
+    @Autowired
+    private StaffPicService staffPicService;
+    @Autowired
+    private RecordService recordService;
     @Value("${web.upload-img-path}")
     private String imagesPath;
     @Value("${web.upload-video-path}")
@@ -150,6 +160,77 @@ public class BackController {
         result.setInfo("查询成功");
         result.setStatus("success");
         result.setData(staffList);
+        ResUtil.ResString(response, result);
+    }
+
+    @PostMapping("/getStaffbyActivity")
+    public void getStaffbyActivity(HttpServletResponse response, Integer id,int pageSize, int pageNumber,String status,String activitytype){
+        ResultPojo result = new ResultPojo();
+        Page<Staff> page = staffService.findStaffByIdAndActivitytype(id,pageSize,pageNumber,status,activitytype);
+        result.setStatus("success");
+        result.setData(page);
+        ResUtil.ResString(response, result);
+    }
+
+    @PostMapping("/getStaffbyStaffId")
+    public void getStaffbyStaffId(HttpServletResponse response, Integer staffId){
+        ResultPojo result = new ResultPojo();
+        StaffPic staffPic = staffPicService.findByStaffId(staffId);
+        result.setStatus("success");
+        result.setData(staffPic);
+        ResUtil.ResString(response, result);
+    }
+
+    @PostMapping("/addRecordDcj")
+    public void addRecordDcj(HttpServletResponse response, Record record){
+        ResultPojo result = new ResultPojo();
+        recordService.saveOrUpdate(record);
+        recordService.updateApplyActivity(record.getActivityId(),record.getStaffId(),"a","2");
+        result.setStatus("success");
+        ResUtil.ResString(response, result);
+    }
+
+    @PostMapping("/nopassApplyActivity")
+    public void nopassApplyActivity(HttpServletResponse response, Record record){
+        ResultPojo result = new ResultPojo();
+        recordService.updateApplyActivity(record.getActivityId(),record.getStaffId(),"a","3");
+        result.setStatus("success");
+        ResUtil.ResString(response, result);
+    }
+
+    @PostMapping("/addRecordComplete")
+    public void addRecordComplete(HttpServletResponse response, Record record){
+        ResultPojo result = new ResultPojo();
+        recordService.saveOrUpdate(record);
+        Record record1 = new Record();
+        record1.setActivitytype("dp");
+        record1.setStaffId(record.getStaffId());
+        record1.setStatus("1");
+        record1.setActivityId(record.getActivityId());
+        recordService.saveOrUpdate(record1);
+//        recordService.clear();
+//        record.setId(null);
+//        recordService.saveOrUpdate(record);
+        recordService.updateApplyActivity(record.getActivityId(),record.getStaffId(),"a","4");
+        recordService.deleteActivityDCJ(record.getActivityId(),record.getStaffId(),"dc","0");
+        result.setStatus("success");
+        ResUtil.ResString(response, result);
+    }
+
+    @PostMapping("/getLeader")
+    public void getLeader(HttpServletResponse response){
+        ResultPojo result = new ResultPojo();
+        List<Staff> list =  staffService.getLeader();
+        result.setData(list);
+        result.setStatus("success");
+        ResUtil.ResString(response, result);
+    }
+    @PostMapping("/deleteActivity")
+    public void deleteActivity (HttpServletResponse response, Activity activity){
+        ResultPojo result = new ResultPojo();
+        activityService.deleteActivity(activity);
+        recordService.deleteRecorgByAct(activity.getId());
+        result.setStatus("success");
         ResUtil.ResString(response, result);
     }
 }
