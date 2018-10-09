@@ -11,7 +11,7 @@ public interface StaffService {
     Staff login(String name);
 
     Page<Staff> findAllStaffByPage(int pageSize, int pageNumber);
-    Staff findById(int id);
+    Staff findById(Integer id);
     int saveOrUpdate(Staff staff);
     Staff findByMobileAndPassword(String mobile, String password);
     int  findByMobile(String mobile);

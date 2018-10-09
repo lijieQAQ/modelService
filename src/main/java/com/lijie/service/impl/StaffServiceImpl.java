@@ -38,7 +38,7 @@ public class StaffServiceImpl implements StaffService {
         return StaffDao.findAll(page);
     }
     @Override
-    public Staff findById(int id) {
+    public Staff findById(Integer id) {
         return StaffDao.findById(id).get();
     }
 

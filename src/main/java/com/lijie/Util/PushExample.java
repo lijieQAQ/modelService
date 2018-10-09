@@ -42,12 +42,33 @@ public class PushExample {
     public static final String MSG_CONTENT = "Test from API Example - msgContent";
 
     public static void main(String[] args) {
-        testSendPush("1");
+        //testSendPush("1");
     }
-    public static void testSendPush(String alias) {
+    public static void testSendPush(String alias, String message, String username) {
 		ClientConfig clientConfig = ClientConfig.getInstance();
         final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
-        final PushPayload payload = buildPushObject_android_and_ios(alias);
+        final PushPayload payload = buildPushObject_android_and_ios(alias, message, username);
+        try {
+            PushResult result = jpushClient.sendPush(payload);
+            LOG.info("Got result - " + result);
+            System.out.println(result);
+            // jpushClient.close();
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+            LOG.error("Sendno: " + payload.getSendno());
+
+        } catch (APIRequestException e) {
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+            LOG.info("Msg ID: " + e.getMsgId());
+            LOG.error("Sendno: " + payload.getSendno());
+        }
+    }
+    public static void activityPushAll(String message, String title) {
+        ClientConfig clientConfig = ClientConfig.getInstance();
+        final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
+        final PushPayload payload = activityPush(message, title);
         try {
             PushResult result = jpushClient.sendPush(payload);
             LOG.info("Got result - " + result);
@@ -86,21 +107,38 @@ public class PushExample {
                 .build();
     }
     
-    public static PushPayload buildPushObject_android_and_ios(String alias) {
+    public static PushPayload buildPushObject_android_and_ios(String alias, String message, String name) {
         Map<String, String> extras = new HashMap<String, String>();
         extras.put("test", "https://community.jiguang.cn/push");
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
                 .setAudience(Audience.alias(alias))
                 .setNotification(Notification.newBuilder()
-                		.setAlert("alert content")
+                		.setAlert(message)
                 		.addPlatformNotification(AndroidNotification.newBuilder()
-                				.setTitle("模特活动")
+                				.setTitle(name)
                                 .addExtras(extras).build())
                 		.addPlatformNotification(IosNotification.newBuilder()
                 				.incrBadge(1)
                 				.addExtra("extra_key", "extra_value").build())
                 		.build())
+                .build();
+    }
+    public static PushPayload activityPush(String message, String title) {
+        Map<String, String> extras = new HashMap<String, String>();
+        extras.put("test", "https://community.jiguang.cn/push");
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.all())
+                .setNotification(Notification.newBuilder()
+                        .setAlert(message)
+                        .addPlatformNotification(AndroidNotification.newBuilder()
+                                .setTitle(title)
+                                .addExtras(extras).build())
+                        .addPlatformNotification(IosNotification.newBuilder()
+                                .incrBadge(1)
+                                .addExtra("extra_key", "extra_value").build())
+                        .build())
                 .build();
     }
 

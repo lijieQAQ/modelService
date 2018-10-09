@@ -51,30 +51,30 @@ public class MessageServiceImpl implements MessageService {
      */
     public List<List<HashMap>> selectAllByUser(Integer userId) {
         Query query = em.createNativeQuery("select " +
-                "    MSG.MESSAGE_ID messageId, MSG.MSG_TYPE msgType, MSG.USER1 user1, MSG.USER2 user2, MSG.SPEAKER speaker, MSG.MESSAGE message, MSG.SEND_TIME sendTime, MSG.OPEN_TIME openTime, MSG.STATUS status, " +
-                "    MSG.DEL_FLG delFlg, MSG.CREATE_ID createId, MSG.CREATE_DATE createDate, MSG.UPDATE_ID updateId, MSG.UPDATE_DATE updateDate, " +
-                "    USR1.NAME AS userName1, USR1.avatar AS portrait1, USR2.NAME AS userName2, USR2.avatar AS portrait2, " +
+                "    MSG.message_id messageId, MSG.msg_type msgType, MSG.user1 user1, MSG.user2 user2, MSG.speaker speaker, MSG.message message, MSG.send_time sendTime, MSG.open_time openTime, MSG.status status, " +
+                "    MSG.del_flg delFlg, MSG.create_id createId, MSG.create_date createDate, MSG.update_id updateId, MSG.update_date updateDate, " +
+                "    USR1.name AS userName1, USR1.avatar AS portrait1, USR2.name AS userName2, USR2.avatar AS portrait2, " +
                 "    0 AS unopenCnt " +
-                "    from MESSAGE MSG, staff USR1, staff USR2, " +
-                "    ( select USER1,  USER2, MAX(SEND_TIME) AS SEND_TIME " +
-                "      from MESSAGE  " +
-                "      where ( USER1 = ? or USER2 = ? ) " +
-                "      group by USER1 asc, USER2 asc ) AS A " +
-                "    where MSG.USER1 = A.USER1 and MSG.USER2 = A.USER2 and MSG.SEND_TIME = A.SEND_TIME AND MSG.USER1 = USR1.id" +
-                "  AND MSG.USER2 = USR2.id" +
-                "    order by MSG.USER1, MSG.USER2");
+                "    from message MSG, staff USR1, staff USR2, " +
+                "    ( select user1,  user2, MAX(send_time) AS SEND_TIME " +
+                "      from message  " +
+                "      where ( user1 = ? or user2 = ? ) " +
+                "      group by user1 asc, user2 asc ) AS A " +
+                "    where MSG.user1 = A.user1 and MSG.user2 = A.user2 and MSG.send_time = A.send_time AND MSG.user1 = USR1.id" +
+                "  AND MSG.user2 = USR2.id" +
+                "    order by MSG.user1, MSG.user2");
         query.setParameter(1, userId);
         query.setParameter(2, userId);
         query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         List<HashMap> userMsgList = query.getResultList();
         Query query1 = em.createNativeQuery("  select " +
-                "    MSG.USER1 user1, MSG.USER2 user2, count(MSG.MESSAGE_ID) as unopenCnt " +
-                "    from MESSAGE MSG, STAFF USR1, STAFF USR2 " +
+                "    MSG.user1 user1, MSG.user2 user2, count(MSG.message_id) as unopenCnt " +
+                "    from message MSG, staff USR1, staff USR2 " +
                 "    where " +
-                "    ( MSG.USER1 = ? or MSG.USER2 = ? ) " +
-                "    and MSG.STATUS = '0' " +
-                "    group by MSG.USER1, MSG.USER2" +
-                "    order by MSG.USER1, MSG.USER2");
+                "    ( MSG.user1 = ? or MSG.user2 = ? ) " +
+                "    and MSG.status = '0' " +
+                "    group by MSG.user1, MSG.user2" +
+                "    order by MSG.user1, MSG.user2");
         query1.setParameter(1, userId);
         query1.setParameter(2, userId);
         query1.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
